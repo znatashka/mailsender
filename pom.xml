@@ -5,11 +5,10 @@
 
 	<groupId>ru.home</groupId>
 	<artifactId>mailsender</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>mailsender</name>
-	<description></description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -52,6 +51,8 @@
 	</dependencies>
 	
 	<build>
+		<finalName>mailsender</finalName>
+
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
