@@ -3,8 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <title>Mail Sender</title>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-block-ui.js"></script>
+    <script src="js/app.js"></script>
+
+    <link href="css/angular-block-ui.css" rel="stylesheet"/>
+    <style>
+        .success {
+            background-color: lightgreen;
+        }
+
+        .error {
+            background-color: palevioletred;
+        }
+    </style>
 </head>
-<body>
-Mail Sender
+<body ng-app="myApp">
+<div ng-controller="myCtrl">
+    <label for="mailFrom">
+        От кого:
+        <input type="text" id="mailFrom" ng-model="mailFrom">
+    </label>
+    <br>
+    <label for="mailTo">
+        Кому:
+        <textarea rows="10" type="text" id="mailTo" ng-model="mailTo"></textarea>
+    </label>
+    <br>
+    <label for="subject">
+        Тема:
+        <input type="text" id="subject" ng-model="subject">
+    </label>
+    <br>
+    <label for="mailText">
+        Текст:
+        <textarea id="mailText" ng-model="mailText"></textarea>
+    </label>
+    <br>
+    <label for="mailFile">
+        Вложение:
+        <input type="file" id="mailFile" file-model="mailFile"/>
+    </label>
+    <br>
+    <br>
+    <button ng-click="sendMails()">Отправить письма</button>
+    <br>
+    <br>
+    <table>
+        <tr ng-repeat="(key, value) in sendResult">
+            <td ng-class="value.code == 0 ? 'success':'error'">{{key}}</td>
+            <td ng-if="value.code != 0">{{value.msg}}</td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

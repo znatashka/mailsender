@@ -14,12 +14,10 @@ open class AppConfig() {
     var host: String = ""
     @Value("\${mail.port}")
     var port: Int = 0
-    @Value("\${mail.username}")
-    var username: String = ""
+    @Value("\${mail.user}")
+    var user: String = ""
     @Value("\${mail.password}")
     var password: String = ""
-    @Value("\${mail.debug}")
-    var isDebug: Boolean = false
 
     @Bean
     open fun javaMailSender(): JavaMailSenderImpl {
@@ -27,14 +25,14 @@ open class AppConfig() {
 
         mailSender.host = host
         mailSender.port = port
-        mailSender.username = username
+        mailSender.username = user
         mailSender.password = password
 
         var prop = mailSender.javaMailProperties;
         prop.put("mail.transport.protocol", "smtps")
         prop.put("mail.smtps.auth", "true")
         prop.put("mail.smtps.starttls.enable", "true")
-        prop.put("mail.debug", isDebug)
+        prop.put("mail.debug", "false")
 
         return mailSender;
     }

@@ -1,30 +1,25 @@
 package ru.home.mailsender.service
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.io.FileSystemResource
 import org.springframework.mail.MailException
 import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
+import org.springframework.web.multipart.MultipartFile
 import ru.home.mailsender.controller.MailSenderController
-import java.io.File
 import java.util.*
 
 @Component
 class MailService @Autowired constructor(val mailSender: JavaMailSenderImpl) {
 
-    @Value("\${file.path}")
-    var filePath = ""
-
     interface Resp {
         var code: Int
 
-        class Success(override var code: Int) : Resp
+        data class Success(override var code: Int) : Resp
         data class Error(override var code: Int, var msg: String?) : Resp
     }
 
-    fun sendMail(mail: MailSenderController.Mail): Map<String, Resp> {
+    fun sendMail(mail: MailSenderController.Mail, file: MultipartFile): Map<String, Resp> {
         var map = HashMap<String, Resp>()
         mail.to.forEach {
             var message = mailSender.createMimeMessage()
@@ -35,8 +30,7 @@ class MailService @Autowired constructor(val mailSender: JavaMailSenderImpl) {
             helper.setSubject(mail.subject);
             helper.setText(mail.text);
 
-            var file = FileSystemResource(File(filePath))
-            helper.addAttachment(file.filename, file)
+            helper.addAttachment(file.originalFilename, file)
 
             try {
                 mailSender.send(message)
