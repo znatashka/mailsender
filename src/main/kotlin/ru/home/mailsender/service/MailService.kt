@@ -7,7 +7,7 @@ import org.springframework.mail.MailException
 import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
-import ru.home.mailsender.rest.MailSenderController
+import ru.home.mailsender.controller.MailSenderController
 import java.io.File
 import java.util.*
 
@@ -22,7 +22,7 @@ class MailService @Autowired constructor(val mailSender: JavaMailSenderImpl) {
         data class Error(var msg: String?) : Resp
     }
 
-    fun sendMail(mail: MailSenderController.Mail): MutableMap<String, Resp> {
+    fun sendMail(mail: MailSenderController.Mail): Map<String, Resp> {
         var map = HashMap<String, Resp>()
         mail.to.forEach {
             var message = mailSender.createMimeMessage()
