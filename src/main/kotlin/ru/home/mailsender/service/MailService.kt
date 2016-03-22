@@ -18,8 +18,10 @@ class MailService @Autowired constructor(val mailSender: JavaMailSenderImpl) {
     var filePath = ""
 
     interface Resp {
-        class Success() : Resp
-        data class Error(var msg: String?) : Resp
+        var code: Int
+
+        class Success(override var code: Int) : Resp
+        data class Error(override var code: Int, var msg: String?) : Resp
     }
 
     fun sendMail(mail: MailSenderController.Mail): Map<String, Resp> {
@@ -38,9 +40,9 @@ class MailService @Autowired constructor(val mailSender: JavaMailSenderImpl) {
 
             try {
                 mailSender.send(message)
-                map.put(it, Resp.Success())
+                map.put(it, Resp.Success(0))
             } catch(e: MailException) {
-                map.put(it, Resp.Error(e.message))
+                map.put(it, Resp.Error(-1, e.message))
             }
         }
         return map
