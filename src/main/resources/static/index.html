@@ -27,7 +27,7 @@
     <br>
     <label for="mailTo">
         Кому:
-        <textarea rows="10" type="text" id="mailTo" ng-model="mailTo"></textarea>
+        <textarea rows="10" cols="30" id="mailTo" ng-model="mailTo"></textarea>
     </label>
     <br>
     <label for="subject">
@@ -37,13 +37,16 @@
     <br>
     <label for="mailText">
         Текст:
-        <textarea id="mailText" ng-model="mailText"></textarea>
+        <textarea rows="20" cols="70" id="mailText" ng-model="mailText"></textarea>
     </label>
     <br>
     <label for="mailFile">
-        Вложение:
-        <input type="file" id="mailFile" file-model="mailFile"/>
+        Вложения:
+        <input type="file" id="mailFile" file-model="mailFiles" multiple/>
     </label>
+    <ul ng-repeat="mailFile in mailFiles">
+        <li>{{mailFile.name}}</li>
+    </ul>
     <br>
     <br>
     <button ng-click="sendMails()">Отправить письма</button>

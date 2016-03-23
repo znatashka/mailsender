@@ -12,7 +12,7 @@ myApp.directive('fileModel', ['$parse', function ($parse) {
 
             element.bind('change', function () {
                 scope.$apply(function () {
-                    modelSetter(scope, element[0].files[0]);
+                    modelSetter(scope, element[0].files);
                 });
             });
         }
@@ -21,12 +21,18 @@ myApp.directive('fileModel', ['$parse', function ($parse) {
 
 myApp.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
 
+    $scope.mailFiles = [];
+
     $scope.sendMails = function () {
         $scope.sendResult = {};
         var fd = new FormData();
-        fd.append('file', $scope.mailFile);
+
+        for (var i = 0; i < $scope.mailFiles.length; i++) {
+            fd.append('file[' + i + ']', $scope.mailFiles[i]);
+        }
+
         fd.append('from', $scope.mailFrom);
-        fd.append('to', $scope.mailTo.split(/\n/));
+        fd.append('to', $scope.mailTo ? $scope.mailTo.split(/\n/) : $scope.mailTo);
         fd.append('subject', $scope.subject);
         fd.append('text', $scope.mailText);
         $http.post('/mail/send', fd, {

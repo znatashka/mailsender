@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.multipart.MultipartHttpServletRequest
 import ru.home.mailsender.service.MailService
 
 @Controller
@@ -17,12 +18,17 @@ class MailSenderController @Autowired constructor(val mailService: MailService) 
 
     @RequestMapping("send", method = arrayOf(RequestMethod.POST))
     @ResponseBody
-    fun send(@RequestParam("file") file: MultipartFile,
-             @RequestParam("from") from: String,
+    fun send(@RequestParam("from") from: String,
              @RequestParam("to") to: Array<String>,
              @RequestParam("subject") subject: String,
-             @RequestParam("text") text: String): Map<String, MailService.Resp> {
+             @RequestParam("text") text: String,
+             request: MultipartHttpServletRequest): Map<String, MailService.Resp> {
 
-        return mailService.sendMail(Mail(from, to, subject, text), file)
+        var files: MutableList<MultipartFile> = arrayListOf()
+        request.fileNames.forEach {
+            files.add(request.getFile(it))
+        }
+
+        return mailService.sendMail(Mail(from, to, subject, text), files)
     }
 }

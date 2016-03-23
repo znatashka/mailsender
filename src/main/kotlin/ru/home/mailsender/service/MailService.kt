@@ -19,7 +19,7 @@ class MailService @Autowired constructor(val mailSender: JavaMailSenderImpl) {
         data class Error(override var code: Int, var msg: String?) : Resp
     }
 
-    fun sendMail(mail: MailSenderController.Mail, file: MultipartFile): Map<String, Resp> {
+    fun sendMail(mail: MailSenderController.Mail, files: MutableList<MultipartFile>): Map<String, Resp> {
         var map = HashMap<String, Resp>()
         mail.to.forEach {
             var message = mailSender.createMimeMessage()
@@ -30,7 +30,9 @@ class MailService @Autowired constructor(val mailSender: JavaMailSenderImpl) {
             helper.setSubject(mail.subject);
             helper.setText(mail.text);
 
-            helper.addAttachment(file.originalFilename, file)
+            files.forEach {
+                helper.addAttachment(it.originalFilename, it)
+            }
 
             try {
                 mailSender.send(message)
