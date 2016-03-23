@@ -1,6 +1,6 @@
 var myApp = angular.module('myApp', ['blockUI']).config(function (blockUIConfig) {
 
-    blockUIConfig.message = 'Отравка писем...';
+    blockUIConfig.message = 'Идёт отравка писем...';
 });
 
 myApp.directive('fileModel', ['$parse', function ($parse) {
