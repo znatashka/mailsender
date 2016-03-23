@@ -38,6 +38,7 @@ class MailService @Autowired constructor(val mailSender: JavaMailSenderImpl) {
                 mailSender.send(message)
                 map.put(it, Resp.Success(0))
             } catch(e: MailException) {
+                e.printStackTrace()
                 map.put(it, Resp.Error(-1, e.message))
             }
         }
