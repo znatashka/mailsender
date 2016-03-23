@@ -24,7 +24,7 @@ myApp.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.mailFiles = [];
 
     $scope.sendMails = function () {
-        $scope.sendResult = {};
+        $scope.sendResult = null;
         var fd = new FormData();
 
         for (var i = 0; i < $scope.mailFiles.length; i++) {
