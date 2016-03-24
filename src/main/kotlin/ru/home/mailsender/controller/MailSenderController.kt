@@ -14,11 +14,12 @@ import ru.home.mailsender.service.MailService
 @RequestMapping("mail")
 class MailSenderController @Autowired constructor(val mailService: MailService) {
 
-    data class Mail(var from: String, var to: Array<String>, var subject: String, var text: String)
+    data class Mail(var from: String, var name: String, var to: Array<String>, var subject: String, var text: String)
 
     @RequestMapping("send", method = arrayOf(RequestMethod.POST))
     @ResponseBody
     fun send(@RequestParam("from") from: String,
+             @RequestParam("name") name: String,
              @RequestParam("to") to: Array<String>,
              @RequestParam("subject") subject: String,
              @RequestParam("text") text: String,
@@ -29,6 +30,6 @@ class MailSenderController @Autowired constructor(val mailService: MailService) 
             files.add(request.getFile(it))
         }
 
-        return mailService.sendMail(Mail(from, to, subject, text), files)
+        return mailService.sendMail(Mail(from, name, to, subject, text), files)
     }
 }

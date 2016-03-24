@@ -10,63 +10,85 @@
     <link href="css/angular-block-ui.css" rel="stylesheet"/>
     <link href="css/semantic.min.css" rel="stylesheet"/>
 </head>
-<body ng-app="myApp">
-<h2>Отправка писем</h2>
-<div ng-controller="myCtrl">
-    <div class="ui segment">
-        <form class="ui form">
-            <div class="field">
-                <label for="mailFrom">
-                    От кого:
-                    <input type="text" id="mailFrom" ng-model="mailFrom">
-                </label>
+<body ng-app="myApp" style="padding-top: 5px">
+<div ng-controller="myCtrl" style="max-width: 800px; margin: 1em auto">
+    <div class="ui segments">
+        <div class="ui segment">
+            <h2>Отправка писем</h2>
+        </div>
+        <div class="ui segments">
+            <div class="ui segment piled">
+                <form class="ui form">
+                    <div class="two fields">
+                        <div class="field">
+                            <label for="mailFrom">
+                                Адрес отправителя:
+                                <input type="email" id="mailFrom" ng-model="mailFrom">
+                            </label>
+                        </div>
+                        <div class="field">
+                            <label for="mailName">
+                                Имя отправителя:
+                                <input type="text" id="mailName" ng-model="mailName">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="mailTo">
+                            Кому:
+                            <textarea rows="7" id="mailTo" ng-model="mailTo"></textarea>
+                        </label>
+                    </div>
+                    <div class="field">
+                        <label for="subject">
+                            Тема:
+                            <input type="text" id="subject" ng-model="subject">
+                        </label>
+                    </div>
+                    <div class="field">
+                        <label for="mailText">
+                            Текст:
+                            <textarea rows="15" id="mailText" ng-model="mailText"></textarea>
+                        </label>
+                    </div>
+                    <div class="two fields">
+                        <div class="four wide field">
+                            <div>
+                                <label for="mailFile" class="ui icon blue button">
+                                    <i class="upload icon"></i>
+                                    Загрузить файлы</label>
+                                <input type="file" id="mailFile" file-model="mailFiles" multiple style="display:none">
+                            </div>
+                        </div>
+                        <div class="twelve wide field">
+                            <a class="ui tag label teal" ng-repeat="mailFile in mailFiles">{{mailFile.name}}</a>
+                        </div>
+                    </div>
+                    <button class="ui icon violet button" ng-click="sendMails()">
+                        <i class="icon send outline"></i>
+                        Отправить письма
+                    </button>
+                </form>
             </div>
-            <div class="field">
-                <label for="mailTo">
-                    Кому:
-                    <textarea rows="7" id="mailTo" ng-model="mailTo"></textarea>
-                </label>
+        </div>
+        <div class="ui segments" ng-show="sendResult != null">
+            <div class="ui segment">
+                <h3>Отчёт</h3>
+                <table class="ui celled table">
+                    <thead>
+                    <tr>
+                        <th>Адрес</th>
+                        <th>Сообщение об ошибке</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="(key, value) in sendResult" ng-class="value.code == 0 ? 'positive':'error'">
+                        <td>{{key}}</td>
+                        <td><i class="icon large" ng-class="value.msg ? 'red remove' : 'green checkmark'"></i>{{value.msg}}</td>
+                    </tr>
+                </table>
             </div>
-            <div class="field">
-                <label for="subject">
-                    Тема:
-                    <input type="text" id="subject" ng-model="subject">
-                </label>
-            </div>
-            <div class="field">
-                <label for="mailText">
-                    Текст:
-                    <textarea rows="15" id="mailText" ng-model="mailText"></textarea>
-                </label>
-            </div>
-            <div class="field">
-                <div>
-                    <label for="mailFile" class="ui icon button">
-                        <i class="file icon"></i>
-                        Загрузить файлы</label>
-                    <input type="file" id="mailFile" file-model="mailFiles" multiple style="display:none">
-                </div>
-            </div>
-            <div class="field">
-                <ul ng-repeat="mailFile in mailFiles">
-                    <li>{{mailFile.name}}</li>
-                </ul>
-            </div>
-            <button class="ui inverted violet button" ng-click="sendMails()">Отправить письма</button>
-        </form>
+        </div>
     </div>
-    <table class="ui celled table" ng-show="sendResult != null">
-        <thead>
-        <tr>
-            <th>Адрес</th>
-            <th>Сообщение об ошибке</th>
-        </tr>
-        </thead>
-        <tr ng-repeat="(key, value) in sendResult" ng-class="value.code == 0 ? 'positive':'negative'">
-            <td>{{key}}</td>
-            <td>{{value.msg}}<i class="icon" ng-class="value.msg ? '' : 'large green checkmark'"></i></td>
-        </tr>
-    </table>
 </div>
 </body>
 </html>

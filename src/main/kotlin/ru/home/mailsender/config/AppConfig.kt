@@ -29,9 +29,9 @@ open class AppConfig() {
         mailSender.password = password
 
         var prop = mailSender.javaMailProperties;
-        prop.put("mail.transport.protocol", "smtps")
-        prop.put("mail.smtps.auth", "true")
-        prop.put("mail.smtps.starttls.enable", "true")
+        prop.put("mail.transport.protocol", "smtp")
+        prop.put("mail.smtp.auth", "true")
+        prop.put("mail.smtp.starttls.enable", "true")
         prop.put("mail.debug", "false")
 
         return mailSender;

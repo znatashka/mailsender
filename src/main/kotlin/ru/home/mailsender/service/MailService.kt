@@ -25,7 +25,7 @@ class MailService @Autowired constructor(val mailSender: JavaMailSenderImpl) {
             var message = mailSender.createMimeMessage()
 
             var helper = MimeMessageHelper(message, true)
-            helper.setFrom(mail.from);
+            helper.setFrom(mail.from, mail.name);
             helper.setTo(it);
             helper.setSubject(mail.subject);
             helper.setText(mail.text);

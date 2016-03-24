@@ -32,6 +32,7 @@ myApp.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
         }
 
         fd.append('from', $scope.mailFrom);
+        fd.append('name', $scope.mailName);
         fd.append('to', $scope.mailTo ? $scope.mailTo.split(/\n/) : $scope.mailTo);
         fd.append('subject', $scope.subject);
         fd.append('text', $scope.mailText);
